@@ -226,6 +226,21 @@ impl QScanner {
         }
     }
 
+    pub fn new_from_vecs(ips: Vec<IpAddr>, ports: Vec<u16>) -> Self {
+        Self {
+            ips,
+            ports,
+            scan_type: SCAN_TYPE,
+            print_mode: PRINT_MODE,
+            batch: BATCH_DEF,
+            to: Duration::from_millis(TIMEOUT_DEF),
+            tries: NonZeroU8::new(std::cmp::max(TRIES_DEF, 1)).unwrap(),
+            ping_payload: vec![0; 56],
+            ping_interval: Duration::from_millis(PING_INTERVAL_DEF),
+            last_results: None,
+        }
+    }
+
     /// Set the scanner type
     pub fn set_scan_type(&mut self, scan_type: QScanType) {
         self.scan_type = scan_type;
